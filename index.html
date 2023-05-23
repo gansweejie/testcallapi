@@ -1,0 +1,45 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoshino</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+</head>
+
+<body>
+
+    <h1>Hello World</h1>
+
+</body>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            url: 'https://edupaywebv2.azurewebsites.net/api/JWTToken/Post',
+            type: 'POST',
+            data: { username: 'user', password: 'user' },
+            dataType: 'json',
+            success: function (token) {
+                var token = token.SuccessToken;
+
+                $.ajax({
+                    url: 'https://edupaywebv2.azurewebsites.net/api/Training/SayHi',
+                    type: 'GET',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                    },
+                    success: function (data) {
+                        alert(data);
+                    }
+                });
+
+            }
+        });
+
+    });
+
+</script>
+
+</html>
